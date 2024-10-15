@@ -26,7 +26,7 @@
 
 solve_and_print.
 
-solve(J,E,T,A,X,L,O,V,E).
+solve(J,E,T,A,X,L,O,V).
 
 % checks to see that all the variables are different digits
 allDiff(J,E,T,A,X,L,O,V) :-
