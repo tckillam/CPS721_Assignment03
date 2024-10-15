@@ -24,4 +24,29 @@
 %%%%% predicates that you choose to introduce
 
 
-solve_and_print :-
+solve_and_print.
+
+solve(J,E,T,A,X,L,O,V,E).
+
+% checks to see that all the variables are different digits
+allDiff(J,E,T,A,X,L,O,V) :-
+    isDigit(J), isDigit(E), isDigit(T), isDigit(A), isDigit(X), isDigit(L), isDigit(O), isDigit(V),
+    not J=E, not J=T, not J=A, not J=X, not J=L, not J=O, not J=V,
+             not E=T, not E=A, not E=X, not E=L, not E=O, not E=V,
+                      not T=A, not T=X, not T=L, not T=O, not T=V,
+                               not A=X, not A=L, not A=O, not A=V,
+                                        not X=L, not X=O, not X=V,
+                                                 not L=O, not L=V,
+                                                          not O=V.
+
+% checks to see if a variable is a digit
+isDigit(0).
+isDigit(1).
+isDigit(2).
+isDigit(3).
+isDigit(4).
+isDigit(5).
+isDigit(6).
+isDigit(7).
+isDigit(8).
+isDigit(9).
