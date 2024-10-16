@@ -26,7 +26,18 @@
 
 solve_and_print.
 
-solve(J,E,T,A,X,L,O,V).
+solve(J,E,T,A,X,L,O,V) :-
+    allDiff(J,E,T,A,X,L,O,V), J > 0, A > 0,
+    E is (X*T) mod 10, C1 is (X*T) // 10,
+    L is (X*E+C1) mod 10, C10 is (X*E+C1) // 10,
+    X is (X*J+C10) mod 10, C100 is (X*J+C10) // 10,
+    A is C100,
+    T is (A*T) mod 10, C2 is (A*T) // 10,
+    E is (A*E+C2) mod 10, C20 is (A*E+C2) // 10,
+    J is A*J+C20,
+    V is (L+T) mod 10, C3 is (L+T) // 10,
+    O is (X+E+C3) mod 10, C30 is (X+E+C3) // 10,
+    L is A+J+C30.
 
 % checks to see that all the variables are different digits
 allDiff(J,E,T,A,X,L,O,V) :-
