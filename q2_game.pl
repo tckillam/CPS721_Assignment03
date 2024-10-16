@@ -20,6 +20,12 @@
 %%%%% If you introduce any other helper predicates for implementing fourExactly,
 %%%%% they should be included in this section.
 
+fourExactly(X,List) :- counter(X,List,0,Amount), Amount = 4.
+
+counter(X,[X],Total,Amount) :- Amount is Total + 1.
+counter(X,[H],Total,Amount) :- not X=H, Amount is Total.
+counter(X,[X|T],Total,Amount) :- X=X, NewTotal is Total + 1, counter(X,T,NewTotal,Amount).
+counter(X,[H|T],Total,Amount) :- not X=H, counter(X,T,Total,Amount).
 
 %%%%% SECTION: gameSolve
 %%%%% Below, you should define rules for the predicate "solve", which takes in your list of
