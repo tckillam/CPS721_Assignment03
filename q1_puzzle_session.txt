@@ -16,7 +16,7 @@
 %%%%% Put your session for generate and test below
 
 
-% TIME
+% TIME for q1a
 
 ?- Start is cputime, solve_and_print, End is cputime, Time is End - Start.
 
@@ -25,7 +25,7 @@ End = 39.921
 Time = 4.0309999999999988
 
 
-% SOLUTION
+% SOLUTION for q1a
 
 The value of J is: 3
 The value of E is: 0
@@ -39,3 +39,25 @@ The value of V is: 2
 
 %%%%% SECTION: puzzleInterleavingSession
 %%%%% Put your session for generate and test below
+
+
+% TIME f0or q1b
+
+% ?- Start is cputime, solve_and_print, End is cputime, Time is End - Start.
+
+Start = 74.406
+End = 74.406
+Time = 0.0
+
+
+% SOLUTION for q1b
+
+The value of J is: 3
+The value of E is: 0
+The value of T is: 8
+The value of A is: 1
+The value of X is: 5
+The value of L is: 4
+The value of O is: 6
+The value of V is: 2
+
