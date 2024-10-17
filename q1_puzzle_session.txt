@@ -41,7 +41,7 @@ The value of V is: 2
 %%%%% Put your session for generate and test below
 
 
-% TIME f0or q1b
+% TIME for q1b
 
 % ?- Start is cputime, solve_and_print, End is cputime, Time is End - Start.
 
