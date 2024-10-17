@@ -24,7 +24,16 @@
 %%%%% predicates that you choose to introduce
 
 
-solve_and_print.
+solve_and_print :- 
+    solve(J,E,T,A,X,L,O,V), 
+    write("The value of J is: "), write(J), nl,
+    write("The value of E is: "), write(E), nl,
+    write("The value of T is: "), write(T), nl,
+    write("The value of A is: "), write(A), nl,
+    write("The value of X is: "), write(X), nl,
+    write("The value of L is: "), write(L), nl,
+    write("The value of O is: "), write(O), nl,
+    write("The value of V is: "), write(V), nl.
 
 solve(J,E,T,A,X,L,O,V) :-
     allDiff(J,E,T,A,X,L,O,V), J > 0, A > 0,
