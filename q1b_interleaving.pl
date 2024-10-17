@@ -24,4 +24,43 @@
 %%%%% predicates that you choose to introduce
 
 
-solve_and_print :-
+solve_and_print :- 
+    solve(J,E,T,A,X,L,O,V), 
+    write("The value of J is: "), write(J), nl,
+    write("The value of E is: "), write(E), nl,
+    write("The value of T is: "), write(T), nl,
+    write("The value of A is: "), write(A), nl,
+    write("The value of X is: "), write(X), nl,
+    write("The value of L is: "), write(L), nl,
+    write("The value of O is: "), write(O), nl,
+    write("The value of V is: "), write(V), nl.
+
+solve(J,E,T,A,X,L,O,V) :-
+    isDigit(E), isDigit(X), isDigit(T), not E=X, not E=T, not X=T,
+    E is (X*T) mod 10, C1 is (X*T) // 10,
+    isDigit(L), not L=E, not L=X, not L=T,
+    L is (X*E+C1) mod 10, C10 is (X*E+C1) // 10,
+    isDigit(J), J > 0, not X=J, not J=E, not J=T, not J=L, 
+    X is (X*J+C10) mod 10, C100 is (X*J+C10) // 10,
+    isDigit(A), A > 0, not A=E, not A=X, not A=T, not A=L, not A=J,
+    A is C100,
+    T is (A*T) mod 10, C2 is (A*T) // 10,
+    E is (A*E+C2) mod 10, C20 is (A*E+C2) // 10,
+    J is A*J+C20,
+    isDigit(V), not V=E, not V=X, not V=T, not V=L, not V=J, not V=A,
+    V is (L+T) mod 10, C3 is (L+T) // 10,
+    isDigit(O), not O=E, not O=X, not O=T, not O=L, not O=J, not O=A, not O=V,
+    O is (X+E+C3) mod 10, C30 is (X+E+C3) // 10,
+    L is A+J+C30.
+
+% checks to see if a variable is a digit
+isDigit(0).
+isDigit(1).
+isDigit(2).
+isDigit(3).
+isDigit(4).
+isDigit(5).
+isDigit(6).
+isDigit(7).
+isDigit(8).
+isDigit(9).
