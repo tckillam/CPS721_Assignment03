@@ -23,7 +23,7 @@
 %%%%% This section should also include your domain definitions and any other helper
 %%%%% predicates that you choose to introduce
 
-
+% calls the solve rule and prints out the solution in a human-readable form
 solve_and_print :- 
     solve(J,E,T,A,X,L,O,V), 
     write("The value of J is: "), write(J), nl,
@@ -35,7 +35,19 @@ solve_and_print :-
     write("The value of O is: "), write(O), nl,
     write("The value of V is: "), write(V), nl.
 
+%  takes in the list of variables and finds an assignment that solves the puzzle using a smart interleaving of generate and test 
 solve(J,E,T,A,X,L,O,V) :-
+
+    /*
+    Instead of generating every number at the beginning, this program tests as it goes to make sure that the numbers all work 
+    together so the program does not have to backtrack as often so computation time is much shorter.
+
+    Everytime a new variable is introduced, we first assign it a digit and makes sure it is not the same as any of the exisiting
+    digits and then check to see if it fits the constraint. If not, then it can backtrack and change the digits that were chosen
+    so a new unique group of the variables that were not working can be selected without having to change all of them every time
+    */
+
+    % the variables that start with Cs are carry overs to be used for the next variable
     isDigit(E), isDigit(X), isDigit(T), not E=X, not E=T, not X=T,
     E is (X*T) mod 10, C1 is (X*T) // 10,
     isDigit(L), not L=E, not L=X, not L=T,

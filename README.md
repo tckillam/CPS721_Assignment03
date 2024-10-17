@@ -1,6 +1,6 @@
 # CPS721_Assignment03
 
-Q1: DONE - just missing some added comments and explanations for why q1a works so much faster than q1b
+Q1: doneeeeeeeeee but please check it over whenever you can
 
 Q2: TEST CASES for fourExactly(X,List) ->
 

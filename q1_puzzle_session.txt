@@ -61,3 +61,5 @@ The value of L is: 4
 The value of O is: 6
 The value of V is: 2
 
+
+% the time for q1b is much quicker than q1a because it has to do much less backtracking as it can generate and test as it goes
