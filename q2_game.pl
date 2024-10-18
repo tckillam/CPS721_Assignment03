@@ -48,7 +48,7 @@ counter(X,[H|T],Total,Amount) :- not X=H, counter(X,T,Total,Amount).
 %%%%% This section should also include your domain definitions and any other helper
 %%%%% predicates (other than fourExactly and its helpers) that you choose to introduce.
 
-solve_and_print :-
+solve_and_print :- write('hey').
 
 /**
 Your task is to write a Prolog program that finds the outcome of each match for each
@@ -56,12 +56,27 @@ team, based on the clues provided below. You have to write a Prolog program that
 precisely not only the given constraints, but also constraints that remain implicit
 **/
 
+cityDomain([C1,C2,C3,C4,C5]) :-
+    outcome(C1),
+    outcome(C2),
+    outcome(C3),
+    outcome(C4),
+    outcome(C5).
+
+cityDomain(O). 
+cityDomain(P). 
+cityDomain(R). 
+cityDomain(S). 
+cityDomain(T).
+
 solve([O,P,R,S,T, Round1, Round2, Round3, Round4, Round5]) :-
+
     O is [O1,O2,O3,O4,O5], exactlyOne(n,O),
     P is [P1,P2,P3,P4,P5], exactlyOne(n,P),
     R is [R1,R2,R3,R4,R5], exactlyOne(n,R),
     S is [S1,S2,S3,S4,S5], exactlyOne(n,S),
     T is [T1,T2,T3,T4,T5], exactlyOne(n,T),
+
              
               % match 1  match 2
     Round1 is [ X1,Y1,   Z1,T1],   evenDraws(d,Round1),
@@ -79,46 +94,37 @@ P2 = w, X2 = P2, O2 = l, Y2 = O2,
 not T1=d, not T1=T2, not T2=d, T3 = n,
 
 % 3. Oakville did not participate in the fourth round, but they already won twice in the preceding three matches.
-O4 = n, countWins([O1,O2,O3] , 2).
+O4 = n, countWins([O1,O2,O3] , 2),
+
+% 4. All matches in the fourth and in the fifth round finished with a draw.
+fourExactly(d, [O4, P4, R4, S4, T4]),
+fourExactly(d, [O5, P5, R5, S5, T5]),
+
+% 5. Before the fourth round, Richmond Hill won only once and lost once
+countWins([R1,R2,R3] , 1),
+countLosses([R1,R2,R3] , 1),
+
+% 6. None of the matches in the first, in the second and in the third rounds finished with a draw.
+countDraws(Round1, 0),
+countDraws(Round2, 0),
+countDraws(Round3, 0),
+
+countDraws([O1,O2,O3 , R1,R2,R3 , P1,P2,P3 , S1,S2,S3 ,T1,T2,T3], 0).
 
 % Helper predicates for counting wins
 countWins([], 0).
 countWins([w|T], Count) :- countWins(T, NewCount), Count is NewCount + 1.
 countWins([_|T], Count) :- countWins(T, Count).
 
-% 4. All matches in the fourth and in the fifth round finished with a draw.
-% fourExactly(d,[X4,Y4,Z4,T4]),
-% fourExactly(d,[X5,Y5,Z5,T5]),
-fourExactly(d, [O4, P4, R4, S4, T4]),
-fourExactly(d, [O5, P5, R5, S5, T5]),
-
-% 5. Before the fourth round, Richmond Hill won only once and lost once
-countWins([R1,R2,R3] , 1).
-countLosses([R1,R2,R3] , 1).
-
 % Helper predicates for counting losses
 countLosses([], 0).
 countLosses([l|T], Count) :- countLosses(T, NewCount), Count is NewCount + 1.
 countLosses([_|T], Count) :- countLosses(T, Count).
 
-% 6. None of the matches in the first, in the second and in the third rounds finished with a draw.
-countDraws(Round1, 0).
-countDraws(Round2, 0).
-countDraws(Round3, 0).
-
-countDraws([O1,O2,O3 , R1,R2,R3 , P1,P2,P3 , S1,S2,S3 ,T1,T2,T3], 0).
-
 % Helper predicates for counting wins and losses
 countDraws([], 0).
 countDraws([d|T], Count) :- countDraws(T, NewCount), Count is NewCount + 1.
 countDraws([_|T], Count) :- countDraws(T, Count).
-
-/*
-cityDomain([C1,C2,C3,C4,C5]) :-
-    outcome(C1),
-    outcome(C2),
-    outcome(C3).
-*/
 
 
 /**
