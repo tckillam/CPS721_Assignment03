@@ -23,31 +23,36 @@ outcome(n). % Did not participate
 
 % Main solve predicate
 solve([O, P, R, S, T]) :-
-    % Define the outcomes for Oakville, Pickering, Richmond Hill, Scarborough, and Toronto in each round
     O = [O1, O2, O3, O4, O5], exactlyOne(n, O),
+    write('Oakville outcomes: '), write(O), nl,  % Debug output for Oakville
     P = [P1, P2, P3, P4, P5], exactlyOne(n, P),
+    write('Pickering outcomes: '), write(P), nl,  % Debug output for Pickering
     R = [R1, R2, R3, R4, R5], exactlyOne(n, R),
+    write('Richmond Hill outcomes: '), write(R), nl,  % Debug output for Richmond Hill
     S = [S1, S2, S3, S4, S5], exactlyOne(n, S),
+    write('Scarborough outcomes: '), write(S), nl,  % Debug output for Scarborough
     T = [T1, T2, T3, T4, T5], exactlyOne(n, T),
-    
-    % Constraint 1: Pickering lost to Scarborough in the first round, won over Oakville in the second round
+    write('Toronto outcomes: '), write(T), nl,  % Debug output for Toronto
+
+    % Check constraint logic
     P1 = l, S1 = w, P2 = w, O2 = l,
-    
-    % Constraint 2: Toronto did not play in round 3; they had one win and one loss in the previous two rounds
-    not T1=d, not T1=T2, not T2=d, T3 = n,    
-    
-    % Constraint 3: Oakville did not participate in round 4, but they won twice in the first three rounds
+    write('Constraint 1 passed'), nl,
+
+    not T1=d, not T1=T2, not T2=d, T3 = n,
+    write('Constraint 2 passed'), nl,
+
     O4 = n, countWins(O, 2),
-    
-    % Constraint 4: All matches in the fourth and fifth rounds finished in a draw
+    write('Constraint 3 passed'), nl,
+
     fourExactly(d, [O4, P4, R4, S4, T4]),
     fourExactly(d, [O5, P5, R5, S5, T5]),
-    
-    % Constraint 5: Before round 4, Richmond Hill won once and lost once
+    write('Constraint 4 passed'), nl,
+
     countWins([R1, R2, R3], 1), countLosses([R1, R2, R3], 1),
-    
-    % Constraint 6: No draws in the first three rounds
-    countDraws([O1, O2, O3, P1, P2, P3, R1, R2, R3, S1, S2, S3, T1, T2, T3] , 0).
+    write('Constraint 5 passed'), nl,
+
+    countDraws([O1, O2, O3, P1, P2, P3, R1, R2, R3, S1, S2, S3, T1, T2, T3] , 0),
+    write('Constraint 6 passed'), nl.
 
 % Helper predicates to ensure exactly one occurrence of 'n' (did not participate)
 exactlyOne(n, List) :- counter(n, List, 0, 1).
