@@ -50,6 +50,12 @@ counter(X,[H|T],Total,Amount) :- not X=H, counter(X,T,Total,Amount).
 
 solve_and_print :-
 
+/**
+Your task is to write a Prolog program that finds the outcome of each match for each
+team, based on the clues provided below. You have to write a Prolog program that implements
+precisely not only the given constraints, but also constraints that remain implicit
+**/
+
 solve([O,P,R,S,T, Round1, Round2, Round3, Round4, Round5]) :-
     O is [O1,O2,O3,O4,O5], exactlyOne(n,O),
     P is [P1,P2,P3,P4,P5], exactlyOne(n,P),
@@ -58,11 +64,25 @@ solve([O,P,R,S,T, Round1, Round2, Round3, Round4, Round5]) :-
     T is [T1,T2,T3,T4,T5], exactlyOne(n,T),
              
               % match 1  match 2
-    Round1 is [ X1,Y1,   Z1,T1], 
-    Round2 is [ X2,Y2,   Z2,T2],
-    Round3 is [ X3,Y3,   Z3,T3],
-    Round4 is [ X4,Y4,   Z4,T4],
-    Round5 is [ X5,Y5,   Z5,T5],
+    Round1 is [ X1,Y1,   Z1,T1],   evenDraws(d,Round1),
+    Round2 is [ X2,Y2,   Z2,T2],   evenDraws(d,Round2),
+    Round3 is [ X3,Y3,   Z3,T3],   evenDraws(d,Round3),
+    Round4 is [ X4,Y4,   Z4,T4],   evenDraws(d,Round4),
+    Round5 is [ X5,Y5,   Z5,T5],   evenDraws(d,Round5).
+
+
+% Pickering lost to Scarborough in the first round, but won over Oakville in the second round.
+P1 is l, X1 is P1, S1 is w, Y1 is P1,
+P2 is w, X2 is P2, O2 is l, Y2 is O2.
+
+
+
+/**
+The 4 variables in Round1 should match to 4 of the 5 starting elements for the different cities,
+the element that does not match is the one that did not participate. 
+**/
+
+
 
 /**
 Round1 is [X1 , Y1 , Z1 , T1 , U1],
@@ -70,13 +90,32 @@ Round1 is [X1 , Y1 , Z1 , T1 , U1],
 #d even always (0,2,4)
 #w =:= #l
 Round1 is [[city,result] , Y1 , Z1 , T1 , U1],
+
+
+
+equalWinLoss [T1 , T2] :-
+    (T1 = w, T2 = l);
+    (T1 = l, T2 = w).
+
+Round1 is [X1 , Y1 , Z1 , T1 , U1],
+evenDraws(d, Round1),
+exactlyOne(n , Round1),
+equalWinLoss(Round1)
 **/
 
-exactlyOne(n,List) :- counter2(X,List,0,Amount), Amount = 1.
+exactlyOne(X,List) :- counter2(X,List,0,Amount), Amount = 1.
 counter2(X,[X],Total,Amount) :- Amount is Total + 1.
 counter2(X,[H],Total,Amount) :- not X=H, Amount is Total.
 counter2(X,[X|T],Total,Amount) :- X=X, NewTotal is Total + 1, counter2(X,T,NewTotal,Amount).
 counter2(X,[H|T],Total,Amount) :- not X=H, counter2(X,T,Total,Amount).
+
+evenDraws(X,List) :- counter3(X,List,0,Amount), Amount = 0.
+evenDraws(X,List) :- counter3(X,List,0,Amount), Amount = 2.
+evenDraws(X,List) :- counter3(X,List,0,Amount), Amount = 4.
+counter3(X,[X],Total,Amount) :- Amount is Total + 1.
+counter3(X,[H],Total,Amount) :- not X=H, Amount is Total.
+counter3(X,[X|T],Total,Amount) :- X=X, NewTotal is Total + 1, counter3(X,T,NewTotal,Amount).
+counter3(X,[H|T],Total,Amount) :- not X=H, counter3(X,T,Total,Amount).
 
 % domain
 outcome(n).
