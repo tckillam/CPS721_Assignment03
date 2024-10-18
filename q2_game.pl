@@ -22,7 +22,7 @@ outcome(d). % Draw
 outcome(n). % Did not participate
 
 % Main solve predicate
-solve([O, P, R, S, T) :-
+solve([O, P, R, S, T]) :-
     % Define the outcomes for Oakville, Pickering, Richmond Hill, Scarborough, and Toronto in each round
     O = [O1, O2, O3, O4, O5], exactlyOne(n, O),
     P = [P1, P2, P3, P4, P5], exactlyOne(n, P),
@@ -67,7 +67,5 @@ countDraws([_|T], Count) :- countDraws(T, Count).
 
 % Predicate to solve and print the solution in a readable format
 solve_and_print :-
-    solve([O, P, R, S, T, Round1, Round2, Round3, Round4, Round5]),
-    format('Oakville: ~w~nPickering: ~w~nRichmond Hill: ~w~nScarborough: ~w~nToronto: ~w~n', [O, P, R, S, T]),
-    format('Round 1: ~w~nRound 2: ~w~nRound 3: ~w~nRound 4: ~w~nRound 5: ~w~n', [Round1, Round2, Round3, Round4, Round5]).
-
+    solve([O, P, R, S, T]),
+    format('Oakville: ~w~nPickering: ~w~nRichmond Hill: ~w~nScarborough: ~w~nToronto: ~w~n', [O, P, R, S, T]).
