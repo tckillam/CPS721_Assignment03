@@ -41,6 +41,7 @@ solve([O, P, R, S, T]) :-
     write('Toronto outcomes: '), write(T), nl,  % Debug output for Toronto
 
 
+
     % Check constraint logic
     P1 = l, S1 = w, P2 = w, O2 = l,
     write('Constraint 1 passed'), nl,
@@ -67,8 +68,8 @@ solve([O, P, R, S, T]) :-
     write('T:'),write(T), nl,
     write('R:'),write(R), nl,
 
-    fourExactly(d, [O4, P4, R4, S4, T4]),
-    fourExactly(d, [O5, P5, R5, S5, T5]),
+    fourExactly(d, [O4, P4 , R4 , S4 , T4]),
+    fourExactly(d, [O5, P5 , R5 , S5 , T5]),
     write('Constraint 4 passed'), nl,
     write('P:'),write(P), nl,
     write('S:'),write(S), nl,
@@ -98,25 +99,43 @@ solve([O, P, R, S, T]) :-
     Round3 = [O3 , P3 , R3 , S3 , T3],
     Round4 = [O4 , P4 , R4 , S4 , T4],
     Round5 = [O5 , P5 , R5 , S5 , T5],
+    write('Round1:'),write(Round1), nl,
+    write('Round2:'),write(Round2), nl,
+    write('Round3:'),write(Round3), nl,
+    write('Round4:'),write(Round4), nl,
+    write('Round5:'),write(Round5), nl,
 
-    
+
+
+    write('Constraint 7 passed'), nl,
     exactlyOne(n, O),
     exactlyOne(n, P),
     exactlyOne(n, S),
     exactlyOne(n, R),
     exactlyOne(n, T),
 
-    countLosses(Round1 , X1) , countWins(Round1 , Y1), 
-    countLosses(Round2 , X2) = countWins(Round2 , Y2),
-    countLosses(Round3 , X3) = countWins(Round3 , Y3),
-    countLosses(Round4 , X4) = countWins(Round4 , Y4),
-    countLosses(Round5 , X5) = countWins(Round5 , Y5),
+    write('Constraint 8 passed'), nl,
+    compare(Round1),
+    compare(Round2),
+    compare(Round3),
+    compare(Round4),
+    compare(Round5),
 
+
+
+    write('Constraint 9 passed'), nl,
     exactlyOne(n, Round1),
     exactlyOne(n, Round2),
     exactlyOne(n, Round3),
     exactlyOne(n, Round4),
-    exactlyOne(n, Round5).
+    exactlyOne(n, Round5),
+    write('Round1:'),write(Round1), nl,
+    write('Round2:'),write(Round2), nl,
+    write('Round3:'),write(Round3), nl,
+    write('Round4:'),write(Round4), nl,
+    write('Round5:'),write(Round5), nl.
+
+
 
 
 
@@ -134,23 +153,32 @@ cityDomain([C1,C2,C3,C4,C5]) :-
 
 
 
-% Helper predicates to ensure exactly one occurrence of 'n' (did not participate)
-exactlyOne(n, List) :- counter(n, List, 0, 1).
+% Helper predicates for counting np & wins & losses & draws
+countNPs([], 0).
+countNPs([H|T], Count) :- H=n, countNPs(T, NewCount), Count is NewCount + 1.
+countNPs([H|T], Count) :- not H=n, countNPs(T, Count).
 
-% Helper predicates for counting wins & losses & draws
 countWins([], 0).
-countWins([w|T], Count) :- countWins(T, NewCount), Count is NewCount + 1.
-countWins([_|T], Count) :- countWins(T, Count).
+countWins([H|T], Count) :- H=w,countWins(T, NewCount), Count is NewCount + 1.
+countWins([H|T], Count) :- not H=w, countWins(T, Count).
 
 countLosses([], 0).
-countLosses([l|T], Count) :- countLosses(T, NewCount), Count is NewCount + 1.
-countLosses([_|T], Count) :- countLosses(T, Count).
+countLosses([H|T], Count) :- H=l, countLosses(T, NewCount), Count is NewCount + 1.
+countLosses([H|T], Count) :- not H=l, countLosses(T, Count).
 
 countDraws([], 0).
-countDraws([d|T], Count) :- countDraws(T, NewCount), Count is NewCount + 1.
-countDraws([_|T], Count) :- countDraws(T, Count).
+countDraws([H|T], Count) :- H=d, countDraws(T, NewCount), Count is NewCount + 1.
+countDraws([H|T], Count) :- not H=d, countDraws(T, Count).
+
+compareWL(Roundn) :- countLosses(Roundn , X) , countWins(Roundn , X).
+
+
 
 % Predicate to solve and print the solution in a readable format
 solve_and_print :-
     solve([O, P, R, S, T]),
-    format('Oakville: ~w~nPickering: ~w~nRichmond Hill: ~w~nScarborough: ~w~nToronto: ~w~n', [O, P, R, S, T]).
+    write("Oakville: "), write(O), nl,
+    write("Pickering: "), write(P), nl,
+    write("Richmond Hill: "), write(R), nl,
+    write("Scarborough: "), write(S), nl,
+    write("Toronto: "), write(T), nl.
