@@ -25,7 +25,7 @@
 
 % calls the solve rule and prints out the solution in a human-readable form
 solve_and_print :- 
-    solve(J,E,T,A,X,L,O,V), 
+    solve([J,E,T,A,X,L,O,V]), 
     write("The value of J is: "), write(J), nl,
     write("The value of E is: "), write(E), nl,
     write("The value of T is: "), write(T), nl,
@@ -36,7 +36,7 @@ solve_and_print :-
     write("The value of V is: "), write(V), nl.
 
 %  takes in the list of variables and finds an assignment that solves the puzzle using a smart interleaving of generate and test 
-solve(J,E,T,A,X,L,O,V) :-
+solve([J,E,T,A,X,L,O,V]) :-
 
     /*
     Instead of generating every number at the beginning, this program tests as it goes to make sure that the numbers all work 

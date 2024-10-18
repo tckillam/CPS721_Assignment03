@@ -25,7 +25,7 @@
 
 % calls the solve rule and prints out the solution in a human-readable form
 solve_and_print :- 
-    solve(J,E,T,A,X,L,O,V), 
+    solve([J,E,T,A,X,L,O,V]), 
     write("The value of J is: "), write(J), nl,
     write("The value of E is: "), write(E), nl,
     write("The value of T is: "), write(T), nl,
@@ -36,7 +36,7 @@ solve_and_print :-
     write("The value of V is: "), write(V), nl.
 
 %  takes in the list of variables and finds an assignment that solves the puzzle
-solve(J,E,T,A,X,L,O,V) :-
+solve([J,E,T,A,X,L,O,V]) :-
 
     % checks to see that all the variables are different unique digits and the leading digits (J and A) are not 0
     allDiff(J,E,T,A,X,L,O,V), J > 0, A > 0,
