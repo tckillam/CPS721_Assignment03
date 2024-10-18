@@ -68,13 +68,57 @@ solve([O,P,R,S,T, Round1, Round2, Round3, Round4, Round5]) :-
     Round2 is [ X2,Y2,   Z2,T2],   evenDraws(d,Round2),
     Round3 is [ X3,Y3,   Z3,T3],   evenDraws(d,Round3),
     Round4 is [ X4,Y4,   Z4,T4],   evenDraws(d,Round4),
-    Round5 is [ X5,Y5,   Z5,T5],   evenDraws(d,Round5).
+    Round5 is [ X5,Y5,   Z5,T5],   evenDraws(d,Round5),
 
 
-% Pickering lost to Scarborough in the first round, but won over Oakville in the second round.
-P1 is l, X1 is P1, S1 is w, Y1 is P1,
-P2 is w, X2 is P2, O2 is l, Y2 is O2.
+% 1. Pickering lost to Scarborough in the first round, but won over Oakville in the second round.
+P1 = l, X1 = P1, S1 = w, Y1 = P1,
+P2 = w, X2 = P2, O2 = l, Y2 = O2,
 
+% 2. Toronto did not play in the third round; they had one win and one loss in the previous two rounds.
+not T1=d, not T1=T2, not T2=d, T3 = n,
+
+% 3. Oakville did not participate in the fourth round, but they already won twice in the preceding three matches.
+O4 = n, countWins([O1,O2,O3] , 2).
+
+% Helper predicates for counting wins
+countWins([], 0).
+countWins([w|T], Count) :- countWins(T, NewCount), Count is NewCount + 1.
+countWins([_|T], Count) :- countWins(T, Count).
+
+% 4. All matches in the fourth and in the fifth round finished with a draw.
+% fourExactly(d,[X4,Y4,Z4,T4]),
+% fourExactly(d,[X5,Y5,Z5,T5]),
+fourExactly(d, [O4, P4, R4, S4, T4]),
+fourExactly(d, [O5, P5, R5, S5, T5]),
+
+% 5. Before the fourth round, Richmond Hill won only once and lost once
+countWins([R1,R2,R3] , 1).
+countLosses([R1,R2,R3] , 1).
+
+% Helper predicates for counting losses
+countLosses([], 0).
+countLosses([l|T], Count) :- countLosses(T, NewCount), Count is NewCount + 1.
+countLosses([_|T], Count) :- countLosses(T, Count).
+
+% 6. None of the matches in the first, in the second and in the third rounds finished with a draw.
+countDraws(Round1, 0).
+countDraws(Round2, 0).
+countDraws(Round3, 0).
+
+countDraws([O1,O2,O3 , R1,R2,R3 , P1,P2,P3 , S1,S2,S3 ,T1,T2,T3], 0).
+
+% Helper predicates for counting wins and losses
+countDraws([], 0).
+countDraws([d|T], Count) :- countDraws(T, NewCount), Count is NewCount + 1.
+countDraws([_|T], Count) :- countDraws(T, Count).
+
+/*
+cityDomain([C1,C2,C3,C4,C5]) :-
+    outcome(C1),
+    outcome(C2),
+    outcome(C3).
+*/
 
 
 /**
