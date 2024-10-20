@@ -8,6 +8,8 @@
 %%%%% Predicate to check if X occurs exactly 4 times in a list.
 fourExactly(X, List) :- counter(X, List, 0, Amount), Amount = 4.
 
+
+
 % Helper counter predicate
 counter(_, [], Amount, Amount).
 counter(X, [X|T], Total, Amount) :- NewTotal is Total + 1, counter(X, T, NewTotal, Amount).
@@ -40,33 +42,19 @@ solve([O, P, R, S, T]) :-
     T = [T1, T2, T3, T4, T5], 
     write('Toronto outcomes: '), write(T), nl,  % Debug output for Toronto
 
+ 
+    
+    
+
+    oneExactly(n , O),
+    oneExactly(n , P),
+    oneExactly(n , S),
+    oneExactly(n , T),
+    oneExactly(n , R),
 
 
-    % Check constraint logic
-    P1 = l, S1 = w, P2 = w, O2 = l,
-    write('Constraint 1 passed'), nl,
-    write('P:'),write(P), nl,
-    write('S:'),write(S), nl,
-    write('O:'),write(O), nl,
-    write('T:'),write(T), nl,
-    write('R:'),write(R), nl,
-
-
-    T3 = n, countWins([T1 , T2] , 1) , countLosses([T1 , T2] , 1),
-    write('Constraint 2 passed'), nl,
-    write('P:'),write(P), nl,
-    write('S:'),write(S), nl,
-    write('O:'),write(O), nl,
-    write('T:'),write(T), nl,
-    write('R:'),write(R), nl,
-
-    O4 = n, countWins([O1,O2,O3], 2),
-    write('Constraint 3 passed'), nl,
-    write('P:'),write(P), nl,
-    write('S:'),write(S), nl,
-    write('O:'),write(O), nl,
-    write('T:'),write(T), nl,
-    write('R:'),write(R), nl,
+    zeroExactly(d , [R1,R2,R3,T1,T2,T3,S1,S2,S3,O1,O2,O3,P1,P2,P3]),
+    write('Constraint 6 passed'), nl,
 
     fourExactly(d, [O4, P4 , R4 , S4 , T4]),
     fourExactly(d, [O5, P5 , R5 , S5 , T5]),
@@ -77,63 +65,57 @@ solve([O, P, R, S, T]) :-
     write('T:'),write(T), nl,
     write('R:'),write(R), nl,
 
-    countWins([R1, R2, R3], 1), countLosses([R1, R2, R3], 1),
-    write('Constraint 5 passed'), nl,
+    
+    % Check constraint logic
+    P1 = l, S1 = w, P2 = w, O2 = l,
+    write('Constraint 1 passed'), nl,
     write('P:'),write(P), nl,
     write('S:'),write(S), nl,
     write('O:'),write(O), nl,
     write('T:'),write(T), nl,
     write('R:'),write(R), nl,
 
-    countDraws([O1, O2, O3, P1, P2, P3, R1, R2, R3, S1, S2, S3, T1, T2, T3] , 0),
-    write('Constraint 6 passed'), nl,
+
+    T3 = n, oneExactly(w , [T1 , T2]) , oneExactly(l , [T1 , T2]),
+    write('Constraint 2 passed'), nl,
     write('P:'),write(P), nl,
     write('S:'),write(S), nl,
     write('O:'),write(O), nl,
     write('T:'),write(T), nl,
+    write('R:'),write(R), nl,
+
+    O4 = n, twoExactly(w , [O1,O2,O3]),
+    write('Constraint 3 passed'), nl,
+    write('O:'),write(O), nl,
+    
+
+    
+
+    oneExactly(w , [R1,R2,R3]), oneExactly(l , [R1,R2,R3]),
+    write('Constraint 5 passed'), nl,
     write('R:'),write(R), nl,
 
     
-    Round1 = [O1 , P1 , R1 , S1 , T1],
-    Round2 = [O2 , P2 , R2 , S2 , T2],
-    Round3 = [O3 , P3 , R3 , S3 , T3],
-    Round4 = [O4 , P4 , R4 , S4 , T4],
-    Round5 = [O5 , P5 , R5 , S5 , T5],
-    write('Round1:'),write(Round1), nl,
-    write('Round2:'),write(Round2), nl,
-    write('Round3:'),write(Round3), nl,
-    write('Round4:'),write(Round4), nl,
-    write('Round5:'),write(Round5), nl,
 
-
-
-    write('Constraint 7 passed'), nl,
-    exactlyOne(n, O),
-    exactlyOne(n, P),
-    exactlyOne(n, S),
-    exactlyOne(n, R),
-    exactlyOne(n, T),
-
-    write('Constraint 8 passed'), nl,
-    compare(Round1),
-    compare(Round2),
-    compare(Round3),
-    compare(Round4),
-    compare(Round5),
-
-
-
+    oneExactly(n , [O1 , P1 , R1 , S1 , T1]),
+    oneExactly(n , [O2 , P2 , R2 , S2 , T2]),
+    oneExactly(n , [O3 , P3 , R3 , S3 , T3]),
+    oneExactly(n , [O4 , P4 , R4 , S4 , T4]),
+    oneExactly(n , [O5 , P5 , R5 , S5 , T5]),
     write('Constraint 9 passed'), nl,
-    exactlyOne(n, Round1),
-    exactlyOne(n, Round2),
-    exactlyOne(n, Round3),
-    exactlyOne(n, Round4),
-    exactlyOne(n, Round5),
-    write('Round1:'),write(Round1), nl,
-    write('Round2:'),write(Round2), nl,
-    write('Round3:'),write(Round3), nl,
-    write('Round4:'),write(Round4), nl,
-    write('Round5:'),write(Round5), nl.
+
+    compare_wins_and_losses([O1 , P1 , R1 , S1 , T1]),
+    compare_wins_and_losses([O2 , P2 , R2 , S2 , T2]),
+    compare_wins_and_losses([O3 , P3 , R3 , S3 , T3]),
+    compare_wins_and_losses([O4 , P4 , R4 , S4 , T4]),
+    compare_wins_and_losses([O5 , P5 , R5 , S5 , T5]),
+    write('Constraint 10 passed'), nl.
+
+
+
+
+ 
+
 
 
 
@@ -154,23 +136,42 @@ cityDomain([C1,C2,C3,C4,C5]) :-
 
 
 % Helper predicates for counting np & wins & losses & draws
-countNPs([], 0).
-countNPs([H|T], Count) :- H=n, countNPs(T, NewCount), Count is NewCount + 1.
-countNPs([H|T], Count) :- not H=n, countNPs(T, Count).
 
-countWins([], 0).
-countWins([H|T], Count) :- H=w,countWins(T, NewCount), Count is NewCount + 1.
-countWins([H|T], Count) :- not H=w, countWins(T, Count).
 
-countLosses([], 0).
-countLosses([H|T], Count) :- H=l, countLosses(T, NewCount), Count is NewCount + 1.
-countLosses([H|T], Count) :- not H=l, countLosses(T, Count).
+oneExactly(X, List) :- counter(X, List, 0, Amount), Amount = 1.
 
-countDraws([], 0).
-countDraws([H|T], Count) :- H=d, countDraws(T, NewCount), Count is NewCount + 1.
-countDraws([H|T], Count) :- not H=d, countDraws(T, Count).
+twoExactly(X, List) :- counter(X, List, 0, Amount), Amount = 2.
 
-compareWL(Roundn) :- countLosses(Roundn , X) , countWins(Roundn , X).
+zeroExactly(X, List) :- counter(X, List, 0, Amount), Amount = 0.
+
+
+
+% this function DOES NOT WORK
+
+% Base case: when the list is empty, the difference between wins and losses must be zero
+compare_wins_and_losses([], 0).
+
+% If the head of the list is 'w', increment the difference
+compare_wins_and_losses([w|T], Difference) :-
+    NewDifference is Difference + 1,
+    compare_wins_and_losses(T, NewDifference).
+
+% If the head of the list is 'l', decrement the difference
+compare_wins_and_losses([l|T], Difference) :-
+    NewDifference is Difference - 1,
+    compare_wins_and_losses(T, NewDifference).
+
+% If the head is something other than 'w' or 'l', continue traversing the list
+compare_wins_and_losses([_|T], Difference) :-
+    compare_wins_and_losses(T, Difference).
+
+% Wrapper predicate to ensure that the list has balanced wins and losses
+compare_wins_and_losses(List) :-
+    compare_wins_and_losses(List, 0).  % Start with a difference of 0
+
+
+
+
 
 
 
