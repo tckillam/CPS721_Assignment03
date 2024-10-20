@@ -22,7 +22,30 @@
 %%%%% If you introduce any other helper predicates for implementing minList
 %%%%% and maxList, they should be included in this section.
 
+% base case for an empty list returns 0
+minList([],null).
 
+% recursion
+minList([H|T], M) :- minimum(T,H,M).
+minimum([], M, M).
+minimum([H|T],X,M) :- H < X, minimum(T,H,M).
+minimum([H|T],X,M) :- H >= X, minimum(T,X,M).
+
+% minList([5,-2,7,-89,100,-25],X) --> -89
+% minList([5,-25],X) --> -25
+
+
+% base case for an empty list returns 0
+maxList([],null).
+
+% recursion
+maxList([H|T], M) :- maximum(T,H,M).
+maximum([], M, M).
+maximum([H|T],X,M) :- H > X, maximum(T,H,M).
+maximum([H|T],X,M) :- H =< X, maximum(T,X,M).
+
+% maxList([5,-2,7,-89,100,-25],X) --> -100
+% maxList([5,-25],X) --> -5
 
 %%%%% SECTION: fertilizersSolve
 %%%%% Below, you should define rules for the predicate "solve", which takes in your list of
