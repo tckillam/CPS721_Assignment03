@@ -126,6 +126,19 @@ assignW([A,B,C,D,E]) :-
     weight(D), not A=D, not B=D, not C=D,
     weight(E), not A=E, not B=E, not C=E, not D=E.
 
+% unique plants
+uniq(A, B, C, D, E) :-
+    plant(A), plant(B), not A=B, 
+    plant(C), not A=C, not B=C,
+    plant(D), not A=D, not B=D, not C=D,
+    plant(E), not A=E, not B=E, not C=E, not D=E.
+
+% different plants
+plant(plant1),
+plant(plant2),
+plant(plant3),
+plant(plant4),
+plant(plant5).
 
 % domain of fertilizers
 fertilizer('bone-meal').
