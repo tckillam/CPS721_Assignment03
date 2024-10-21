@@ -44,7 +44,7 @@ maximum([], M, M).
 maximum([H|T],X,M) :- H > X, maximum(T,H,M).
 maximum([H|T],X,M) :- H =< X, maximum(T,X,M).
 
-% maxList([5,-2,7,-89,100,-25],X) --> -100
+% maxList([5,-2,7,-89,100,-25],X) --> 100
 % maxList([5,-25],X) --> -5
 
 %%%%% SECTION: fertilizersSolve
@@ -72,6 +72,9 @@ solve([P1,P2,P3,P4,P5]) :-
 
 % the plants and their fertilizers, heights, yeilds and weights
 
+% the list of plants
+Plants = [P1,P2,P3,P4,P5],
+
 % the fertilizers for each plant
 FN = [F1, F2, F3, F4, F5],
 
@@ -84,16 +87,40 @@ YN = [Y1, Y2, Y3, Y4, Y5],
 % the weights for each plant
 WN = [W1, W2, W3, W4, W5],
 
-assignF(FN),
-assignH(HN),
-assignY(YN),
-assignW(WN),
-
 P1 = [F1,H1,Y1,W1],
 P2 = [F2,H2,Y2,W2],
-P3 = [F3,H3,Y3,W3],
-P4 = [F4,H4,Y4,W4],
-P5 = [F5,H5,Y5,W5],
+P3 = [F3,H3,Y3,W3], 
+P4 = [F4,H4,Y4,W4], 
+P5 = [F5,H5,Y5,W5], 
+
+/**assignF(FN),**/
+/**assignW(WN),**/
+assignY(YN),
+/**assignH(HN),**/
+
+fertilizer(F1), fertilizer(F2), not F1=F2, 
+% constraint 1, 3 
+fertilizer(F3), not F1=F3, not F2=F3, not F3='manure', not F3='seaweed', not F3='bone-meal',
+fertilizer(F4), not F1=F4, not F2=F4, not F3=F4, not F4='seaweed', not F4='bone-meal',
+fertilizer(F5), not F1=F5, not F2=F5, not F3=F5, not F4=F5, not F5='seaweed', not F5='bone-meal',
+
+weight(W1), weight(W2), not W1=W2, 
+% constraint 1
+weight(W3), not W1=W3, not W2=W3, W3 > W2,
+weight(W4), not W1=W4, not W2=W4, not W3=W4,
+% constraint 8
+weight(W5), not W1=W5, not W2=W5, not W3=W5, not W4=W5, maxList(WN,MaxW), not W5=MaxW,
+
+% constraint 1
+container1(Plants,'manure',W), weight(W), W3 < W,
+
+height(H1), height(H2), not H1=H2, 
+% constraint 7
+height(H3), not H1=H3, not H2=H3, H3 is H1 + 1,
+% constraint 2
+height(H4), not H1=H4, not H2=H4, not H3=H4, H4 > H3, H2 > H4,
+% constraint 7
+height(H5), not H1=H5, not H2=H5, not H3=H5, not H4=H5, H5 > H1*2,
 
 write('ta da'), nl.
 
@@ -103,7 +130,6 @@ assignF([A,B,C,D,E]) :-
     fertilizer(C), not A=C, not B=C,
     fertilizer(D), not A=D, not B=D, not C=D,
     fertilizer(E), not A=E, not B=E, not C=E, not D=E.
-   
 
 % assigns the varibles in a list to unique values in heights
 assignH([A,B,C,D,E]) :-
@@ -126,6 +152,19 @@ assignW([A,B,C,D,E]) :-
     weight(D), not A=D, not B=D, not C=D,
     weight(E), not A=E, not B=E, not C=E, not D=E.
 
+% unique plants
+assignP(A, B, C, D, E) :-
+    plant(A), plant(B), not A=B, 
+    plant(C), not A=C, not B=C,
+    plant(D), not A=D, not B=D, not C=D,
+    plant(E), not A=E, not B=E, not C=E, not D=E.
+
+% different plants
+plant(plant1).
+plant(plant2).
+plant(plant3).
+plant(plant4).
+plant(plant5).
 
 % domain of fertilizers
 fertilizer('bone-meal').
@@ -155,6 +194,11 @@ weight(10).
 weight(14).
 weight(19).
 
+% seeing if an element is in a list
+listChecker(X,[]).
+listChecker(X,[X|T]).
+listChecker(X,[H|T]) :- not H=T, listChecker(X,T).
 
-
-
+% checks to see what plant contains what
+container1([[F, _, _, W] | _], F, W).
+container1([_ | T], F, W) :- container1(T, F, W).
