@@ -133,6 +133,9 @@ yield(Y5), not Y1=Y5, not Y2=Y5, not Y3=Y5, not Y4=Y5,
 % constraint 6
 container3(Plants,'seaweed',YS), yield(YS), minList(YN,MinY), MinY=YS,
 
+% constraint 5
+container3(Plants,'egg-shells',YE), yield(YE), Y1 is YE*2,
+
 write('ta da'), nl.
 
 % unique plants
