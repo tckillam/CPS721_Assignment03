@@ -20,79 +20,33 @@ counter(X, [Y|T], Total, Amount) :- not X=Y , counter(X, T, Total, Amount).
 
 
 
-
-
 % Main solve predicate
 solve([O, P, R, S, T]) :-
 
 
 
     O = [O1, O2, O3, O4, O5], 
-    write('Oakville outcomes: '), write(O), nl,  % Debug output for Oakville
     P = [P1, P2, P3, P4, P5], 
-    write('Pickering outcomes: '), write(P), nl,  % Debug output for Pickering
     R = [R1, R2, R3, R4, R5], 
-    write('Richmond Hill outcomes: '), write(R), nl,  % Debug output for Richmond Hill
     S = [S1, S2, S3, S4, S5], 
-    write('Scarborough outcomes: '), write(S), nl,  % Debug output for Scarborough
     T = [T1, T2, T3, T4, T5], 
-    write('Toronto outcomes: '), write(T), nl,  % Debug output for Toronto
 
     
-    
-
-
-
-
     
     outcome(P1) , outcome(P2) , outcome(S1) , outcome(O2) ,
-
     P1 = l, S1 = w, P2 = w, O2 = l,
-    write('Constraint 1 passed'), nl,
-    write('P:'),write(P), nl,
-    write('S:'),write(S), nl,
-    write('O:'),write(O), nl,
-    write('T:'),write(T), nl,
-    write('R:'),write(R), nl,
-
-
-
 
 
     outcome(T1) ,outcome(T2) , outcome(T3) ,
-    
     T3 = n, oneExactly(w , [T1 , T2]) , oneExactly(l , [T1 , T2]),
-    write('Constraint 2 passed'), nl,
-    write('P:'),write(P), nl,
-    write('S:'),write(S), nl,
-    write('O:'),write(O), nl,
-    write('T:'),write(T), nl,
-    write('R:'),write(R), nl,
-
-
-
 
 
     outcome(O1) , outcome(O3) ,
-    
     O4 = n, twoExactly(w , [O1,O2,O3]),
-    write('Constraint 3 passed'), nl,
-    write('O:'),write(O), nl,
-
-
-
-
 
 
     outcome(R1) ,outcome(R2) , outcome(R3) ,
-    
     oneExactly(w , [R1,R2,R3]), oneExactly(l , [R1,R2,R3]),
-    write('Constraint 5 passed'), nl,
-    write('R:'),write(R), nl,
-
-
-
-
 
 
     outcome(S2) , outcome(S3) , outcome(P3) ,
@@ -113,12 +67,9 @@ solve([O, P, R, S, T]) :-
     oneExactly(n, [O4, P4 , R4 , S4 , T4]),
 
 
-
     outcome(S5) ,outcome(T5) , outcome(R5) ,outcome(P5) ,outcome(O5) ,
     fourExactly(d, [O5, P5 , R5 , S5 , T5]),
     oneExactly(n, [O5, P5 , R5 , S5 , T5]),
-    
-
     
 
     compare_wins_and_losses([O1 , P1 , R1 , S1 , T1]),
@@ -132,8 +83,7 @@ solve([O, P, R, S, T]) :-
     oneExactly(n , P),
     oneExactly(n , S),
     oneExactly(n , T),
-    oneExactly(n , R),
-
+    oneExactly(n , R).
 
 
 
@@ -145,24 +95,6 @@ outcome(n). % Did not participate
  
 
 
-
-
-
-
-cityDomain([C1,C2,C3,C4,C5]) :-
-    outcome(C1),
-    outcome(C2),
-    outcome(C3),
-    outcome(C4),
-    outcome(C5).
-
-
-
-
-
-
-
-
 % Helper predicates for counting np & wins & losses & draws
 
 
@@ -172,11 +104,7 @@ twoExactly(X, List) :- counter(X, List, 0, Amount), Amount = 2.
 
 zeroExactly(X, List) :- counter(X, List, 0, Amount), Amount = 0.
 
-
 compare_wins_and_losses(List) :- counter(w, List, 0, W), counter(l, List, 0, L), W = L.
-
-
-
 
 
 
