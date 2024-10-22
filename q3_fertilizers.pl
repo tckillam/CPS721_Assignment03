@@ -113,15 +113,25 @@ weight(W5), not W1=W5, not W2=W5, not W3=W5, not W4=W5, maxList(WN,MaxW), not W5
 
 % constraint 1
 container1(Plants,'manure',W), weight(W), W3 < W,
+% constraint 5
+container1(Plants,'egg-shells',WE), weight(WE), MaxW=WE,
+
+% Seaweed fertilized the tallest plant, but that plant produced the fewest tomatoes, and bone-meal fertilized the plant that produced the lightest weight
+% constraint 6
+container1(Plants,'bone-meal',WB), weight(WB), minList(WN,MinW), MinW=WB,
 
 height(H1), height(H2), not H1=H2, 
 % constraint 7
-height(H3), not H1=H3, not H2=H3, H3 is H1 + 1,
+height(H3), not H1=H3, not H2=H3, H1 is H3 + 1,
 % constraint 2
 height(H4), not H1=H4, not H2=H4, not H3=H4, H4 > H3, H2 > H4,
 % constraint 7
-height(H5), not H1=H5, not H2=H5, not H3=H5, not H4=H5, H5 > H1*2,
+height(H5), not H1=H5, not H2=H5, not H3=H5, not H4=H5, H5 is H1*2,
 
+/*
+% constraint 6
+container2(Plants,'seaweed',HT), maxList(HT,MaxH), MaxH=HT,
+*/
 write('ta da'), nl.
 
 % assigns the varibles in a list to unique values in fertilizers
@@ -199,6 +209,10 @@ listChecker(X,[]).
 listChecker(X,[X|T]).
 listChecker(X,[H|T]) :- not H=T, listChecker(X,T).
 
-% checks to see what plant contains what
+% checks to see what plant contains what fertilizer and weight
 container1([[F, _, _, W] | _], F, W).
 container1([_ | T], F, W) :- container1(T, F, W).
+
+% checks to see what plant contains what fertilizer and height
+container2([[F, H, _, _] | _], F, H).
+container2([_ | T], F, H) :- container2(T, F, H).
