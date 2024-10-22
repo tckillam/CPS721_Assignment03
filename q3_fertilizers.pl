@@ -125,7 +125,6 @@ height(H5), not H1=H5, not H2=H5, not H3=H5, not H4=H5, H5 is H1*2,
 % constraint 6
 container2(Plants,'seaweed',HT), maxList(HN,MaxH), MaxH=HT,
 
-% The tallest and shortest plants did not produce either the most tomatoes or the heaviest weight.
 % constraint 4
 container5(Plants,MaxH,WT), not WT=MaxW,
 minList(HN,MinH),
@@ -135,6 +134,11 @@ yield(Y1), yield(Y2), not Y1=Y2,
 yield(Y3), not Y1=Y3, not Y2=Y3,
 yield(Y4), not Y1=Y4, not Y2=Y4, not Y3=Y4,
 yield(Y5), not Y1=Y5, not Y2=Y5, not Y3=Y5, not Y4=Y5,
+
+% constraint 4
+maxList(YN,MaxY),
+container4(Plants,MaxH,YT), not YT=MaxY,
+container4(Plants,MinH,YH), not YH=MaxY,
 
 % constraint 6
 container3(Plants,'seaweed',YS), yield(YS), minList(YN,MinY), MinY=YS,
