@@ -1,8 +1,16 @@
-
-% q2_game.pl
+% Enter the names of your group members below.
+% If you only have 2 group members, leave the last space blank
+%
+%%%%%
 %%%%% NAME: Shaghayegh Dehghanisanij
 %%%%% NAME: Theresa Killam
-%%%%% NAME: 
+%%%%% NAME:
+%
+% Add the required rules in the corresponding sections. 
+% If you put the rules in the wrong sections, you will lose marks.
+%
+% You may add additional comments as you choose but DO NOT MODIFY the comment lines below
+%
 
 %%%%% SECTION: fourExactly
 %%%%% Predicate to check if X occurs exactly 4 times in a list.
@@ -18,11 +26,7 @@ counter(X, [_|T], Total, Amount) :- counter(X, T, Total, Amount).
 %%%%% SECTION: gameSolve
 %%%%% Predicate to solve the game based on constraints.
 
-% Domain of possible outcomes for each team in each round
-outcome(w). % Win
-outcome(l). % Loss
-outcome(d). % Draw
-outcome(n). % Did not participate
+
 
 
 
@@ -42,31 +46,17 @@ solve([O, P, R, S, T]) :-
     T = [T1, T2, T3, T4, T5], 
     write('Toronto outcomes: '), write(T), nl,  % Debug output for Toronto
 
- 
     
     
 
-    oneExactly(n , O),
-    oneExactly(n , P),
-    oneExactly(n , S),
-    oneExactly(n , T),
-    oneExactly(n , R),
 
 
-    zeroExactly(d , [R1,R2,R3,T1,T2,T3,S1,S2,S3,O1,O2,O3,P1,P2,P3]),
-    write('Constraint 6 passed'), nl,
-
-    fourExactly(d, [O4, P4 , R4 , S4 , T4]),
-    fourExactly(d, [O5, P5 , R5 , S5 , T5]),
-    write('Constraint 4 passed'), nl,
-    write('P:'),write(P), nl,
-    write('S:'),write(S), nl,
-    write('O:'),write(O), nl,
-    write('T:'),write(T), nl,
-    write('R:'),write(R), nl,
 
     
-    % Check constraint logic
+    outcome(P1) , outcome(P2) , 
+    outcome(S1) ,
+    outcome(O2) ,
+
     P1 = l, S1 = w, P2 = w, O2 = l,
     write('Constraint 1 passed'), nl,
     write('P:'),write(P), nl,
@@ -76,6 +66,11 @@ solve([O, P, R, S, T]) :-
     write('R:'),write(R), nl,
 
 
+
+
+
+    outcome(T1) ,outcome(T2) , outcome(T3) ,
+    
     T3 = n, oneExactly(w , [T1 , T2]) , oneExactly(l , [T1 , T2]),
     write('Constraint 2 passed'), nl,
     write('P:'),write(P), nl,
@@ -84,36 +79,98 @@ solve([O, P, R, S, T]) :-
     write('T:'),write(T), nl,
     write('R:'),write(R), nl,
 
+
+
+
+
+    outcome(O1) , outcome(O3) ,
+    
     O4 = n, twoExactly(w , [O1,O2,O3]),
     write('Constraint 3 passed'), nl,
     write('O:'),write(O), nl,
-    
 
-    
 
+
+
+
+
+    outcome(R1) ,outcome(R2) , outcome(R3) ,
+    
     oneExactly(w , [R1,R2,R3]), oneExactly(l , [R1,R2,R3]),
     write('Constraint 5 passed'), nl,
     write('R:'),write(R), nl,
 
-    
 
+
+
+
+
+    outcome(S2) , outcome(S3) ,
+    outcome(P3) ,
+    zeroExactly(d , [R1,R2,R3,T1,T2,T3,S1,S2,S3,O1,O2,O3,P1,P2,P3]),
+    write('Constraint 6 passed'), nl,
+
+    
+    
+    outcome(O4) ,
+    outcome(P4) ,
+    outcome(R4) ,
+    outcome(T4) ,
+    outcome(S4) , 
+    fourExactly(d, [O4, P4 , R4 , S4 , T4]),
+    oneExactly(n, [O4, P4 , R4 , S4 , T4]),
+    write('Constraint 4-4 passed'), nl,
+
+
+
+    outcome(S5) ,outcome(T5) , outcome(R5) ,outcome(P5) ,outcome(O5) ,
+    fourExactly(d, [O5, P5 , R5 , S5 , T5]),
+    oneExactly(n, [O5, P5 , R5 , S5 , T5]),
+    write('Constraint 4-5 passed'), nl,
+    write('P:'),write(P), nl,
+    write('S:'),write(S), nl,
+    write('O:'),write(O), nl,
+    write('T:'),write(T), nl,
+    write('R:'),write(R), nl,
+
+    
+   
+
+
+    compare_wins_and_losses([O1 , P1 , R1 , S1 , T1]),
+        write('Constraint 7 passed'), nl,
+
+
+    
     oneExactly(n , [O1 , P1 , R1 , S1 , T1]),
     oneExactly(n , [O2 , P2 , R2 , S2 , T2]),
     oneExactly(n , [O3 , P3 , R3 , S3 , T3]),
-    oneExactly(n , [O4 , P4 , R4 , S4 , T4]),
-    oneExactly(n , [O5 , P5 , R5 , S5 , T5]),
     write('Constraint 9 passed'), nl,
 
-    compare_wins_and_losses([O1 , P1 , R1 , S1 , T1]),
-    compare_wins_and_losses([O2 , P2 , R2 , S2 , T2]),
-    compare_wins_and_losses([O3 , P3 , R3 , S3 , T3]),
-    compare_wins_and_losses([O4 , P4 , R4 , S4 , T4]),
-    compare_wins_and_losses([O5 , P5 , R5 , S5 , T5]),
+    
+
+    
+
+    oneExactly(n , O),
+    oneExactly(n , P),
+    oneExactly(n , S),
+    oneExactly(n , T),
+    oneExactly(n , R),
     write('Constraint 10 passed'), nl.
 
 
 
+    
 
+    
+
+
+
+% Domain of possible outcomes for each team in each round
+outcome(w). % Win
+outcome(l). % Loss
+outcome(d). % Draw
+outcome(n). % Did not participate
  
 
 
@@ -145,29 +202,7 @@ twoExactly(X, List) :- counter(X, List, 0, Amount), Amount = 2.
 zeroExactly(X, List) :- counter(X, List, 0, Amount), Amount = 0.
 
 
-
-% this function DOES NOT WORK
-
-% Base case: when the list is empty, the difference between wins and losses must be zero
-compare_wins_and_losses([], 0).
-
-% If the head of the list is 'w', increment the difference
-compare_wins_and_losses([w|T], Difference) :-
-    NewDifference is Difference + 1,
-    compare_wins_and_losses(T, NewDifference).
-
-% If the head of the list is 'l', decrement the difference
-compare_wins_and_losses([l|T], Difference) :-
-    NewDifference is Difference - 1,
-    compare_wins_and_losses(T, NewDifference).
-
-% If the head is something other than 'w' or 'l', continue traversing the list
-compare_wins_and_losses([_|T], Difference) :-
-    compare_wins_and_losses(T, Difference).
-
-% Wrapper predicate to ensure that the list has balanced wins and losses
-compare_wins_and_losses(List) :-
-    compare_wins_and_losses(List, 0).  % Start with a difference of 0
+compare_wins_and_losses(List) :- counter(w, List, 0, W), counter(l, List, 0, L), W = L.
 
 
 
