@@ -93,11 +93,6 @@ P3 = [F3,H3,Y3,W3],
 P4 = [F4,H4,Y4,W4], 
 P5 = [F5,H5,Y5,W5], 
 
-/**assignF(FN),**/
-/**assignW(WN),**/
-assignY(YN),
-/**assignH(HN),**/
-
 fertilizer(F1), fertilizer(F2), not F1=F2, 
 % constraint 1, 3 
 fertilizer(F3), not F1=F3, not F2=F3, not F3='manure', not F3='seaweed', not F3='bone-meal',
@@ -116,7 +111,6 @@ container1(Plants,'manure',W), weight(W), W3 < W,
 % constraint 5
 container1(Plants,'egg-shells',WE), weight(WE), MaxW=WE,
 
-% Seaweed fertilized the tallest plant, but that plant produced the fewest tomatoes, and bone-meal fertilized the plant that produced the lightest weight
 % constraint 6
 container1(Plants,'bone-meal',WB), weight(WB), minList(WN,MinW), MinW=WB,
 
@@ -128,39 +122,18 @@ height(H4), not H1=H4, not H2=H4, not H3=H4, H4 > H3, H2 > H4,
 % constraint 7
 height(H5), not H1=H5, not H2=H5, not H3=H5, not H4=H5, H5 is H1*2,
 
-/*
 % constraint 6
-container2(Plants,'seaweed',HT), maxList(HT,MaxH), MaxH=HT,
-*/
+container2(Plants,'seaweed',HT), maxList(HN,MaxH), MaxH=HT,
+
+yield(Y1), yield(Y2), not Y1=Y2, 
+yield(Y3), not Y1=Y3, not Y2=Y3,
+yield(Y4), not Y1=Y4, not Y2=Y4, not Y3=Y4,
+yield(Y5), not Y1=Y5, not Y2=Y5, not Y3=Y5, not Y4=Y5,
+
+% constraint 6
+container3(Plants,'seaweed',YS), yield(YS), minList(YN,MinY), MinY=YS,
+
 write('ta da'), nl.
-
-% assigns the varibles in a list to unique values in fertilizers
-assignF([A,B,C,D,E]) :-
-    fertilizer(A), fertilizer(B), not A=B, 
-    fertilizer(C), not A=C, not B=C,
-    fertilizer(D), not A=D, not B=D, not C=D,
-    fertilizer(E), not A=E, not B=E, not C=E, not D=E.
-
-% assigns the varibles in a list to unique values in heights
-assignH([A,B,C,D,E]) :-
-    height(A), height(B), not A=B, 
-    height(C), not A=C, not B=C,
-    height(D), not A=D, not B=D, not C=D,
-    height(E), not A=E, not B=E, not C=E, not D=E.
-
-% assigns the varibles in a list to unique values in yields
-assignY([A,B,C,D,E]) :-
-    yield(A), yield(B), not A=B, 
-    yield(C), not A=C, not B=C,
-    yield(D), not A=D, not B=D, not C=D,
-    yield(E), not A=E, not B=E, not C=E, not D=E.
-
-% assigns the varibles in a list to unique values in weights
-assignW([A,B,C,D,E]) :-
-    weight(A), weight(B), not A=B, 
-    weight(C), not A=C, not B=C,
-    weight(D), not A=D, not B=D, not C=D,
-    weight(E), not A=E, not B=E, not C=E, not D=E.
 
 % unique plants
 assignP(A, B, C, D, E) :-
@@ -216,3 +189,7 @@ container1([_ | T], F, W) :- container1(T, F, W).
 % checks to see what plant contains what fertilizer and height
 container2([[F, H, _, _] | _], F, H).
 container2([_ | T], F, H) :- container2(T, F, H).
+
+% checks to see what plant contains what fertilizer and yield
+container3([[F, _, Y, _] | _], F, Y).
+container3([_ | T], F, Y) :- container3(T, F, Y).
