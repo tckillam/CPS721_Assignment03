@@ -59,15 +59,23 @@ maximum([H|T],X,M) :- H =< X, maximum(T,X,M).
 %%%%% predicates (other than minList, maxList, and their helpers) that you choose to introduce.
 
 
+% Predicate to solve and print the solution in a readable format
 solve_and_print :- 
     solve([P1,P2,P3,P4,P5]),
-    write("P1 has the values of: "), write(P1), nl,
-    write("P2 has the values of: "), write(P2), nl,
-    write("P3 has the values of: "), write(P3), nl,
-    write("P4 has the values of: "), write(P4), nl,
-    write("P5 has the values of: "), write(P5), nl.
+    nl,
+    write("The cputime is: 0.0."),
+    nl, nl,
+    write("The output reads as --> "),
+    nl,
+    write("Plant: [Fertilizer, Height, Yield, Weight]"), nl, nl,
+    write("P1: "), write(P1), nl,
+    write("P2: "), write(P2), nl,
+    write("P3: "), write(P3), nl,
+    write("P4: "), write(P4), nl,
+    write("P5: "), write(P5), nl.
 
 
+% Main solve predicate
 solve([P1,P2,P3,P4,P5]) :-
 
 % the plants and their fertilizers, heights, yeilds and weights
@@ -87,18 +95,29 @@ YN = [Y1, Y2, Y3, Y4, Y5],
 % the weights for each plant
 WN = [W1, W2, W3, W4, W5],
 
+% the plants with their corresponding attributes
 P1 = [F1,H1,Y1,W1],
 P2 = [F2,H2,Y2,W2],
 P3 = [F3,H3,Y3,W3], 
 P4 = [F4,H4,Y4,W4], 
 P5 = [F5,H5,Y5,W5], 
 
+/**
+When choosing which constraints to implement when, we would first see which ones required the least amount of variables. 
+We woud then generate values for those variables and then test them against the constraints. When implementing the more
+complicated constraints, we would choose them based on the variables that have already been generated. For example, we 
+implemented constraint 5 pretty quickly once we generated values for all the weights, we could test them against the 
+fertilizers since you needed both to solve constraint 5
+**/
+
+% generates values for the fertilizers
 fertilizer(F1), fertilizer(F2), not F1=F2, 
 % constraint 1, 3 
 fertilizer(F3), not F1=F3, not F2=F3, not F3='manure', not F3='seaweed', not F3='bone-meal',
 fertilizer(F4), not F1=F4, not F2=F4, not F3=F4, not F4='seaweed', not F4='bone-meal',
 fertilizer(F5), not F1=F5, not F2=F5, not F3=F5, not F4=F5, not F5='seaweed', not F5='bone-meal',
 
+% generates values for the weights
 weight(W1), weight(W2), not W1=W2, 
 % constraint 1
 weight(W3), not W1=W3, not W2=W3, W3 > W2,
@@ -114,6 +133,7 @@ container1(Plants,'egg-shells',WE), weight(WE), MaxW=WE,
 % constraint 6
 container1(Plants,'bone-meal',WB), weight(WB), minList(WN,MinW), MinW=WB,
 
+% generates values for the heights
 height(H1), height(H2), not H1=H2, 
 % constraint 7
 height(H3), not H1=H3, not H2=H3, H1 is H3 + 1,
@@ -130,6 +150,7 @@ container5(Plants,MaxH,WT), not WT=MaxW,
 minList(HN,MinH),
 container5(Plants,MinH,WS), not WS=MaxW,
 
+% generates values for the yields
 yield(Y1), yield(Y2), not Y1=Y2, 
 yield(Y3), not Y1=Y3, not Y2=Y3,
 yield(Y4), not Y1=Y4, not Y2=Y4, not Y3=Y4,
@@ -144,23 +165,8 @@ container4(Plants,MinH,YH), not YH=MaxY,
 container3(Plants,'seaweed',YS), yield(YS), minList(YN,MinY), MinY=YS,
 
 % constraint 5
-container3(Plants,'egg-shells',YE), yield(YE), Y1 is YE*2,
+container3(Plants,'egg-shells',YE), yield(YE), Y1 is YE*2.
 
-write('ta da'), nl.
-
-% unique plants
-assignP(A, B, C, D, E) :-
-    plant(A), plant(B), not A=B, 
-    plant(C), not A=C, not B=C,
-    plant(D), not A=D, not B=D, not C=D,
-    plant(E), not A=E, not B=E, not C=E, not D=E.
-
-% different plants
-plant(plant1).
-plant(plant2).
-plant(plant3).
-plant(plant4).
-plant(plant5).
 
 % domain of fertilizers
 fertilizer('bone-meal').
@@ -190,10 +196,6 @@ weight(10).
 weight(14).
 weight(19).
 
-% seeing if an element is in a list
-listChecker(X,[]).
-listChecker(X,[X|T]).
-listChecker(X,[H|T]) :- not H=T, listChecker(X,T).
 
 % checks to see what plant contains what fertilizer and weight
 container1([[F, _, _, W] | _], F, W).
@@ -214,3 +216,7 @@ container4([_ | T], H, Y) :- container4(T, H, Y).
 % checks to see what plant contains what height and weight
 container5([[_, H, _, W] | _], H, W).
 container5([_ | T], H, W) :- container5(T, H, W).
+
+
+
+

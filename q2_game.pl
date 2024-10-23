@@ -1,14 +1,26 @@
-
-% q2_game.pl
+% Enter the names of your group members below.
+% If you only have 2 group members, leave the last space blank
+%
+%%%%%
 %%%%% NAME: Shaghayegh Dehghanisanij
 %%%%% NAME: Theresa Killam
-%%%%% NAME: 
+%%%%% NAME:
+%
+% Add the required rules in the corresponding sections. 
+% If you put the rules in the wrong sections, you will lose marks.
+%
+% You may add additional comments as you choose but DO NOT MODIFY the comment lines below
+%
 
 %%%%% SECTION: fourExactly
-%%%%% Predicate to check if X occurs exactly 4 times in a list.
+%%%%% Below, you should define rules for the predicate "fourExactly(X,List)", 
+%%%%% which takes in an input List and checks whether there are exactly 4 
+%%%%% occurrences of a given element X in the list.
+%%%%%
+%%%%% If you introduce any other helper predicates for implementing fourExactly,
+%%%%% they should be included in this section.
+
 fourExactly(X, List) :- counter(X, List, 0, Amount), Amount = 4.
-
-
 
 % Helper counter predicate
 counter(_, [], Amount, Amount).
@@ -16,14 +28,18 @@ counter(X, [X|T], Total, Amount) :- NewTotal is Total + 1, counter(X, T, NewTota
 counter(X, [Y|T], Total, Amount) :- not X=Y , counter(X, T, Total, Amount).
 
 %%%%% SECTION: gameSolve
-%%%%% Predicate to solve the game based on constraints.
-
-
+%%%%% Below, you should define rules for the predicate "solve", which takes in your list of
+%%%%% variables and finds an assignment for each variable which solves the problem.
+%%%%%
+%%%%% You should also define rules for the predicate "solve_and_print" which calls your
+%%%%% solve predicate and prints out the results in an easy to read, human readable format.
+%%%%% The predicate "solve_and_print" should take in no arguments
+%%%%%
+%%%%% This section should also include your domain definitions and any other helper
+%%%%% predicates (other than fourExactly and its helpers) that you choose to introduce.
 
 % Main solve predicate
 solve([O, P, R, S, T]) :-
-
-
 
     O = [O1, O2, O3, O4, O5], 
     P = [P1, P2, P3, P4, P5], 
@@ -131,8 +147,13 @@ compare_wins_and_losses(List) :- counter(w, List, 0, W), counter(l, List, 0, L),
 % Predicate to solve and print the solution in a readable format
 solve_and_print :-
     solve([O, P, R, S, T]),
+    nl,
+    write("The output reads as --> "),
+    nl,
+    write("City: [Round 1 Outcome, Round 2 Outcome, Round 3 Outcome, Round 4 Outcome, Round 5 Outcome]"), nl, nl,
     write("Oakville: "), write(O), nl,
     write("Pickering: "), write(P), nl,
     write("Richmond Hill: "), write(R), nl,
     write("Scarborough: "), write(S), nl,
     write("Toronto: "), write(T), nl.
+

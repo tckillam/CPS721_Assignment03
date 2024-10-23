@@ -15,21 +15,36 @@
 %%%%% SECTION: fertilizersDescription
 %%%%% Put a brief description of your program below
 
-
+/**
+When choosing which constraints to implement when, we would first see which ones required the least amount of variables. 
+We woud then generate values for those variables and then test them against the constraints. When implementing the more
+complicated constraints, we would choose them based on the variables that have already been generated. For example, we 
+implemented constraint 5 pretty quickly once we generated values for all the weights, we could test them against the 
+fertilizers since you needed both to solve constraint 5
+**/
 
 %%%%% SECTION: fertilizersSession
 %%%%% Put your session for the network problem below
 
-[eclipse 23]:  Start is cputime, solve_and_print, End is cputime, Time is End - Start.
-P1 has the values of: [bone-meal, 2, 12, 3]
-P2 has the values of: [seaweed, 7, 4, 9]
-P3 has the values of: [compost, 1, 9, 10]
-P4 has the values of: [egg-shells, 5, 6, 19]
-P5 has the values of: [manure, 4, 21, 14]
+
+% TIME for q3
+
+?- Start is cputime, solve_and_print, End is cputime, Time is End - Start.
 
 Start = 0.312
 End = 0.312
 Time = 0.0
-Yes (0.00s cpu, solution 1, maybe more) ? ;
 
-No (0.00s cpu)
+
+% SOLUTION for q3
+
+The cputime is: 0.0.
+
+The output reads as -->
+Plant: [Fertilizer, Height, Yield, Weight]
+
+P1: [bone-meal, 2, 12, 3]
+P2: [seaweed, 7, 4, 9]
+P3: [compost, 1, 9, 10]
+P4: [egg-shells, 5, 6, 19]
+P5: [manure, 4, 21, 14]

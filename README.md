@@ -1,7 +1,5 @@
 # CPS721_Assignment03
 
-Q1: doneeeeeeeeee but please check it over whenever you can
-
 Q2: TEST CASES for fourExactly(X,List) ->
 
 fourExactly(q,[q,a,b,q,q,b,q,a,c,b,c]). -> Yes

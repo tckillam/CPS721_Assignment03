@@ -15,3 +15,27 @@
 %%%%% SECTION: gameSession
 %%%%% Put your session for the game puzzle below
 
+
+% TIME for q2
+
+?- Start is cputime, solve_and_print, End is cputime, Time is End - Start.
+
+Start = 26.921
+End = 26.937
+Time = 0.016000000000001791
+
+
+% SOLUTION for q2
+
+The output reads as -->
+City: [Round 1 Outcome, Round 2 Outcome, Round 3 Outcome, Round 4 Outcome, Round 5 Outcome]
+
+Oakville: [w, l, w, n, d]
+Pickering: [l, w, l, d, n]
+Richmond Hill: [n, l, w, d, d]
+Scarborough: [w, n, l, d, d]
+Toronto: [l, w, n, d, d]
+
+% we would first find the simplest constraints and the variables needed for them, we would then generate
+% the values for those variables and then test them against those constraints, as the constraints got more
+% complicated, we would slowly generate more variables and implement those constraints

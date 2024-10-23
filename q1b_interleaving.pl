@@ -23,6 +23,7 @@
 %%%%% This section should also include your domain definitions and any other helper
 %%%%% predicates that you choose to introduce
 
+
 % calls the solve rule and prints out the solution in a human-readable form
 solve_and_print :- 
     solve([J,E,T,A,X,L,O,V]), 
